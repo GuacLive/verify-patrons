@@ -1,8 +1,8 @@
-# Verifying Patrons on AngelThump
+# Verifying Patrons on GuacLive
 
 ## About
 
-Verifying Patrons on the AngelThump service.
+Verifying Patrons on the GuacLive service.
 
 ## Getting Started
 

@@ -42,9 +42,9 @@ const refresh = (user) => {
 
         axios({
             method: 'PATCH',
-            url: `https://sso.angelthump.com/users/${user.id}`,
+            url: `https://api.guac.live/users/${user.user_id}`,
             headers: {
-                "x-api-key": config.apiKey
+                "authorization": `Bearer ${config.apiKey}`
             },
             data: {
                 patreon: patreonObject
@@ -98,7 +98,7 @@ const verifyPatreon = async (user) => {
         return;
     }
 
-    //console.log(patronData.attributes);
+    console.log(patronData.attributes);
 
     let patreonObject = userPatreonObject;
     patreonObject.isPatron = false;
@@ -108,14 +108,12 @@ const verifyPatreon = async (user) => {
 
     axios({
         method: 'PATCH',
-        url: `https://sso.angelthump.com/users/${user.id}`,
+        url: `https://api.guac.live/users/${user.user_id}`,
         headers: {
-            "x-api-key": config.apiKey
+            "authorization": `Bearer ${config.apiKey}`
         },
         data: {
-            patreon: patreonObject,
-            password_protect: false,
-            unlist: false
+            patreon: patreonObject
         }
     }).catch(e => {
         return console.error(e.message);
@@ -125,14 +123,14 @@ const verifyPatreon = async (user) => {
 const getCurrentPatrons = async(skip) => {
     let currentPatrons = [];
     await axios({
-        url: `https://sso.angelthump.com/users?patreon.isPatron=true&$limit=10&$skip=${skip}`,
+        url: `https://api.guac.live/users?patreon.isPatron=true&$limit=10&$skip=${skip}`,
         method: "GET",
         headers: {
-            "x-api-key": config.apiKey
+            "authorization": `Bearer ${config.apiKey}`
         }
     })
     .then(response => {
-        currentPatrons = response.data.data;
+        currentPatrons = response.data;
     }).catch(e => {
         console.error(e);
     })
@@ -142,14 +140,14 @@ const getCurrentPatrons = async(skip) => {
 const getTotalPatrons = async() => {
     let total;
     await axios({
-        url: `https://sso.angelthump.com/users?patreon.isPatron=true&$limit=0`,
+        url: `https://api.guac.live/users?patreon.isPatron=true&$limit=0`,
         method: "GET",
         headers: {
-            "x-api-key": config.apiKey
+            "authorization": `Bearer ${config.apiKey}`
         }
     })
     .then(response => {
-        total = response.data.total;
+        total = response.data;
     }).catch(e => {
         console.error(e);
     })
