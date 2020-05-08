@@ -147,7 +147,7 @@ const getTotalPatrons = async() => {
         }
     })
     .then(response => {
-        total = response.data;
+        total = Object.keys(response.data.data).length;
     }).catch(e => {
         console.error(e);
     })
