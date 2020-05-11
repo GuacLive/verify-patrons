@@ -75,12 +75,14 @@ const verifyPatreon = async (user) => {
             for(const included of response.data.included) {
                 if(included.relationships) {
                     if(campaignID == included.relationships.campaign.data.id) {
+                        console.log(included);
                         return included;
                     }
                 }
             }
         }
     }).catch(e => {
+        console.log(e);
         if(e.response.status === 401) {
             return refresh(user);
         }
@@ -130,7 +132,7 @@ const getCurrentPatrons = async(skip) => {
         }
     })
     .then(response => {
-        currentPatrons = response.data;
+        currentPatrons = response.data.data;
     }).catch(e => {
         console.error(e);
     })
