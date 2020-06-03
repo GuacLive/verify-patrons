@@ -1,6 +1,6 @@
 {
   "name": "@guaclive/verify-patrons",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "verify if patrons are actually patrons, if not patch them.",
   "main": "index.js",
   "scripts": {
