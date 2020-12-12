@@ -327,7 +327,7 @@ const refreshCreatorToken = async () => {
       patreon.CREATOR_ACCESS_TOKEN = data.access_token;
       patreon.CREATOR_REFRESH_TOKEN = data.refresh_token;
       fs.writeFile(
-        path.resolve(__dirname, "../sso/config/patreon.json"),
+        path.resolve(__dirname, config.patreonPath, "patreon.json"),
         JSON.stringify(patreon, null, 4),
         (err) => {
           if (err) return console.error(err);
