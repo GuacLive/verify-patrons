@@ -7,14 +7,15 @@ const util = require("util");
 const readFile = util.promisify(fs.readFile);
 
 const main = async () => {
-  let skip = 0, currentPatrons = [], patronData;
+  let page = 0, currentPatrons = [], patronData, total = 0;
   do {
-    patronData = await getPatrons(skip);
+    patronData = await getPatrons(page);
+    total = patronData.pagination.total
     currentPatrons = currentPatrons.concat(patronData.data);
-    skip += 10;
-  } while (currentPatrons.length < patronData.total);
+    page += 1;
+  } while (currentPatrons.length < total);
 
-  console.log(`verifying ${patronData.total} patrons...`);
+  console.log(`verifying ${total} patrons...`);
 
   patreon = await readFile(
     path.resolve(__dirname, config.patreonPath),
@@ -364,10 +365,10 @@ const checkCreatorToken = async () => {
   return isValid;
 };
 
-const getPatrons = async (skip) => {
+const getPatrons = async (page) => {
   let data;
   await axios({
-    url: `https://api.guac.live/users?patreon.isPatron=true&$limit=10&$skip=${skip}`,
+    url: `https://api.guac.live/users?patreon.isPatron=true&page=${page}`,
     headers: {
         "authorization": `Bearer ${config.apiKey}`
     },
